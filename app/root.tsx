@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  NavLink,
 } from "react-router";
 
 import type { Route } from "./+types/root";
@@ -42,7 +43,38 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <>
+      <nav className="bg-white shadow p-4">
+        <div className="container mx-auto flex items-center justify-between">
+          <NavLink to="/" className="text-2xl font-bold text-indigo-600">
+            RRv7 CRUD
+          </NavLink>
+          <div className="space-x-4">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-indigo-600" : "text-gray-600"
+              }
+            >
+              Items
+            </NavLink>
+            <NavLink
+              to="/new"
+              className={({ isActive }) =>
+                isActive ? "text-indigo-600" : "text-gray-600"
+              }
+            >
+              New Item
+            </NavLink>
+          </div>
+        </div>
+      </nav>
+      <main className="container mx-auto p-4">
+        <Outlet />
+      </main>
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

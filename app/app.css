@@ -7,7 +7,9 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  /* @apply bg-white dark:bg-gray-950; */
+  background-image: url("./images/multi038.jpg");
+  background-repeat: repeat;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
