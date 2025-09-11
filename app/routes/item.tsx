@@ -1,12 +1,22 @@
-import type { Route } from "./+types/item";
 import { supabase } from "~/supabase-client";
 import { Form, redirect, type ActionFunctionArgs } from "react-router";
+import type { Route } from "./+types/item";
 
-export async function Loader({ params }: Route.LoaderArgs) {
+export function meta({ params }: Route.MetaArgs) {
+  return [
+    { title: `Edit Item ${params.id} | RRV7 Crud` },
+    {
+      name: "description",
+      content: "Edit or delete an item using our Supabase CRUD app.",
+    },
+  ];
+}
+
+export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
 
   if (!id) {
-    return { error: "No item found!" };
+    return { error: "No item found." };
   }
 
   const { data, error } = await supabase
@@ -20,6 +30,32 @@ export async function Loader({ params }: Route.LoaderArgs) {
   }
 
   return { item: data };
+}
+
+export async function action({ request, params }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const intent = formData.get("intent");
+
+  if (intent === "delete") {
+    const { error } = await supabase.from("items").delete().eq("id", params.id);
+    if (error) {
+      return { error: error.message };
+    }
+    return redirect("/");
+  } else if (intent === "update") {
+    const { error } = await supabase
+      .from("items")
+      .update({ title, description })
+      .eq("id", params.id);
+    if (error) {
+      return { error: error.message };
+    }
+    return { updated: true };
+  }
+
+  return {};
 }
 
 export default function Item({ loaderData, actionData }: Route.ComponentProps) {
