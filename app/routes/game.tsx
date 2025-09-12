@@ -1,5 +1,6 @@
 import type { Route } from "./+types/game";
 import { Welcome } from "../welcome/welcome";
+import { Lobby } from "../lobby/lobby";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,5 +10,9 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Game() {
-  return <Welcome />;
+  return (
+    <div>
+      <Lobby />
+    </div>
+  );
 }

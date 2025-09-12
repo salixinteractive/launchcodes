@@ -28,8 +28,8 @@ type RouteFiles = {
     id: "root";
     page: "/" | "/new" | "/items/:id";
   };
-  "routes/items.tsx": {
-    id: "routes/items";
+  "routes/game.tsx": {
+    id: "routes/game";
     page: "/";
   };
   "routes/newItem.tsx": {
